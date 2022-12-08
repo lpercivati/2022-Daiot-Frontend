@@ -11,7 +11,9 @@ import { Paper, Typography, Grid } from "@mui/material"
 
 const Home: NextPage = () => {
 
-  const { dispositivos } = useDispositivoList();
+  //const { dispositivos } = useDispositivoList();
+
+  let dispositivos  = [{dispositivoId : 100, nombre: "ESP32", ubicacion: "cuarto"}];
   console.log(dispositivos);
   return (
     <Layout>
@@ -20,7 +22,7 @@ const Home: NextPage = () => {
           dispositivoId={element.dispositivoId}
           nombre={element.nombre}
           ubicacion={element.ubicacion}
-          id={element._id}
+          id={element.dispositivoId}
         />)
       }
     </Layout>

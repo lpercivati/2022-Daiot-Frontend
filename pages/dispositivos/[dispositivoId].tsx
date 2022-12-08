@@ -1,8 +1,9 @@
 import React from "react"
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
-import { useDispositivoById } from "./../../api"
+import { getMetrics } from "./../../api"
 import { Layout } from "./../../Components"
+import { Chart } from "react-google-charts";
 import { Paper, Typography, Button } from "@mui/material"
 
 interface ItemProps {
@@ -35,22 +36,26 @@ export const Item = ({ item }: ItemProps) => {
 const DispositivoId: NextPage = () => {
     const router = useRouter();
     const { dispositivoId } = router.query;
-    const { dispositivo } = useDispositivoById(dispositivoId);
+    let metrics = getMetrics(dispositivoId);
+
+    const options = {
+        chart: {
+          title: "Promedio de temperatura y humedad por mes",
+          subtitle: "",
+        },
+      };
+
     const onBack = () => {
         router.back();
     }
     return (
-        <Layout>
-            <Item
-                item={dispositivo}
-            />
-            <Button
-                variant="outlined"
-                onClick={onBack}
-            >
-                Volver
-            </Button>
-        </Layout>
+       <Chart 
+       chartType="Bar"
+       width="50%"
+       height="600px"
+       data={metrics.finalMetrics}
+       options={options}
+       />
     )
 }
 
